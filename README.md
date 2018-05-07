@@ -1,7 +1,10 @@
-Role Name
+oracle-deinstall
 =========
 
 This role deinstalls Oracle RDBMS homes.
+
+This role is part of full Oracle RDBMS home management solution:
+https://github.com/ilmarkerm/ansible-oracle-home-mgmt
 
 Requirements
 ------------
