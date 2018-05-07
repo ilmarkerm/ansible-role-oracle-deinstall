@@ -3,7 +3,7 @@
     path: "{{ oracle_home }}"
   register: oracle_deinstall_oracle_home_exists
   become: yes
-  become_user: "{{ oracle_meta_db_owner }}"
+  become_user: "{{ oracle_db_owner }}"
 
 - fail:
     msg: "{{ oracle_db_version }} home is not registered in playbook config"
@@ -18,18 +18,18 @@
         dest: /tmp/check_home_registered.sh
         mode: "0700"
       become: yes
-      become_user: "{{ oracle_meta_db_owner }}"
+      become_user: "{{ oracle_db_owner }}"
       
     - name: Check if any database is using that oracle home
       shell: "/tmp/check_home_registered.sh {{ oracle_home }}"
       become: yes
-      become_user: "{{ oracle_meta_db_owner }}"
+      become_user: "{{ oracle_db_owner }}"
       changed_when: no
 
     - name: Detach ORACLE_HOME
       shell: "{{ oracle_home }}/oui/bin/runInstaller -silent -detachHome ORACLE_HOME={{ oracle_home }} -local"
       become: yes
-      become_user: "{{ oracle_meta_db_owner }}"
+      become_user: "{{ oracle_db_owner }}"
     
     - name: Remove ORACLE_HOME
       file:
@@ -43,6 +43,6 @@
         path: "{{ oracle_meta_db_owner_home }}/.profile_{{ oracle_db_version }}"
         state: absent
       become: yes
-      become_user: "{{ oracle_meta_db_owner }}"
+      become_user: "{{ oracle_db_owner }}"
 
   when: oracle_deinstall_oracle_home_exists.stat.exists
